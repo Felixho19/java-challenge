@@ -9,6 +9,7 @@ import jp.co.axa.apidemo.repositories.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeRepository.findAll();
     }
 
+    @Cacheable("employee")
     public Employee getEmployee(Long employeeId) {
         return findEmployeeById(employeeId);
     }
@@ -42,11 +44,13 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .build();
     }
 
+    @Transactional
     public void deleteEmployee(Long employeeId){
         findEmployeeById(employeeId);
         employeeRepository.deleteById(employeeId);
     }
 
+    @Transactional
     public void updateEmployee(Long currentEmployeeId, UpdateEmployeeRequest updatedEmployee) {
         Employee currentEmp = findEmployeeById(currentEmployeeId);
         currentEmp.setName(updatedEmployee.getName());
@@ -61,7 +65,6 @@ public class EmployeeServiceImpl implements EmployeeService{
      * @param employeeId the employee id to be found
      * @return Employee with the employee id provided
      */
-    @Cacheable("employee")
     private Employee findEmployeeById(Long employeeId){
         Optional<Employee> optEmp = employeeRepository.findById(employeeId);
         if(!optEmp.isPresent()){

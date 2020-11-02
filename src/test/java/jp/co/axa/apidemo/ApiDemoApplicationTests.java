@@ -34,6 +34,7 @@ public class ApiDemoApplicationTests {
     EmployeeRepository employeeRepository;
 
     @Test
+    @Transactional
     public void createEmployee() {
         EmployeeService service = new EmployeeServiceImpl(employeeRepository);
         CreateEmployeeResponse res =  createTestEmployee(service);
@@ -66,6 +67,7 @@ public class ApiDemoApplicationTests {
     }
 
     @Test
+    @Transactional
     public void updateEmployee() {
         EmployeeService service = new EmployeeServiceImpl(employeeRepository);
 
