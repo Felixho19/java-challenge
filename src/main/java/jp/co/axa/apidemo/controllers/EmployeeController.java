@@ -74,7 +74,7 @@ public class EmployeeController {
     public void updateEmployee(@RequestBody UpdateEmployeeRequest updateEmployeeRequest,
                                @PathVariable(name = "employeeId") Long employeeId) {
         employeeService.updateEmployee(employeeId, updateEmployeeRequest);
-        log.info("Employee Updated Successfully");
+        log.info("Employee Updated Successfully: " +  updateEmployeeRequest.toString());
     }
 
 }
